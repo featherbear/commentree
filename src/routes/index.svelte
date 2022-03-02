@@ -1,2 +1,38 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+  import CodePanel from "../components/MainPanels/CodePanel.svelte";
+
+  import FilePanel from "../components/MainPanels/FilePanel.svelte";
+  import NotesPanel from "../components/MainPanels/CommentsPanel.svelte";
+  import Toolbar from "../components/MainPanels/ToolbarPanel.svelte";
+
+  import uistate from "../stores/UIState";
+</script>
+
+<div>
+  <Toolbar />
+  {#if $uistate.filePanelVisible} <FilePanel /> {/if}
+  <CodePanel />
+  <NotesPanel />
+</div>
+
+<slot />
+
+<style lang="scss">
+  :global(html),
+  :global(body) {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  div {
+     position: absolute;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+    display: flex;
+    flex-direction: row;
+  }
+</style>
