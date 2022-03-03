@@ -1,16 +1,26 @@
 <script lang="ts">
   let elem: HTMLElement;
 
-  import { onMount } from "svelte";
-  function resize(e: MouseEvent) {
-    console.log(e);
-    Math.max(e.clientX, 0)
-  }
+  const dispatch = createEventDispatcher();
+
+  import { createEventDispatcher, onMount } from "svelte";
 
   onMount(() => {
+    let pos;
+
+    function resize(e: MouseEvent) {
+      let changeX = pos - e.x
+      pos = e.x
+
+      dispatch("resize", changeX)      
+    }
+
     elem.addEventListener(
       "mousedown",
-      () => document.addEventListener("mousemove", resize, false),
+      (e) => {
+        pos = e.x;
+        document.addEventListener("mousemove", resize, false)
+      },
       false
     );
 
@@ -30,7 +40,7 @@
   div {
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
 
     height: 100%;
     width: 5px;
