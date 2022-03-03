@@ -21,12 +21,16 @@
     Files
   </div>
   <div>Export</div>
+  <div on:click={() => {
+    prompt("Exported data", 'sdad');
+
+  }}>Import</div>
 </PanelBase>
 
 <style lang="scss">
   div {
     height: 30px;
     cursor: pointer;
-    padding: 5px;
+    padding: 10px;
   }
 </style>
