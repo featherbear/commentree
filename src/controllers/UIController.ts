@@ -13,6 +13,18 @@ function generateToggleBooleanState(name: keyof UIStateType) {
     }
 }
 
+function generateSetState(name: keyof UIStateType) {
+    return function (value: any) {
+        UIState.update(v => {
+            return {
+                ...v,
+                [name]: value
+            }
+        })
+    }
+}
+
 export const toggleFilePanel = generateToggleBooleanState('filePanelVisible')
 export const toggleFavourites = generateToggleBooleanState('favouritesVisible')
 export const toggleMetadata = generateToggleBooleanState('metadataVisible')
+export const setActiveFile = generateSetState('activeFile')

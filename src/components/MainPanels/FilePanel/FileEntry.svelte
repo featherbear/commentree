@@ -3,14 +3,19 @@
   import StarFilledIcon from "../../../lineicons-free/star-filled.svg";
 
   import { favourites } from "../../../stores/AppState";
+  import { setActiveFile } from "../../../controllers/UIController";
   let FavouritesStore = favourites.store;
 
   export let path;
 </script>
 
-<div>
+<div
+  on:click={() => {
+    setActiveFile(path);
+  }}
+>
   <span
-    on:click={() => {
+    on:click|stopPropagation={() => {
       favourites.toggle(path);
     }}
   >
