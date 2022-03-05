@@ -50,6 +50,7 @@
     display: flex;
     flex-direction: row;
 
+    overflow-x: hidden;
     user-select: none;
 
     color: $foregroundColour;
@@ -64,7 +65,7 @@
     height: 100%;
     background-color: $panelBackgroundColour;
     &:not(.active) {
-      display: none
+      display: none;
     }
   }
 </style>

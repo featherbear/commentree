@@ -40,7 +40,7 @@
 </PanelBase>
 
 <style lang="scss">
-  @import '../../styles/site.scss';
+  @import "../../styles/site.scss";
 
   div {
     height: 30px;
