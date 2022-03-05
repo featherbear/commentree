@@ -39,11 +39,6 @@
 <style lang="scss">
   @import "../styles/site.scss";
   div {
-    position: absolute;
-    top: 0;
-    right: 0;
-
-    height: 100%;
     width: 10px;
 
     display: flex;

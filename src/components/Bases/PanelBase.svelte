@@ -19,9 +19,17 @@
     .map(([k, v]) => `${k}: ${v};`)
     .join(" ")}
 >
-  <slot />
   {#if options.resizeBar}
-    <VerticalResizeBar on:resize={({ detail }) => handleResize(detail)} />{/if}
+    <section>
+      <slot />
+    </section>
+    <VerticalResizeBar
+      on:resize={({ detail }) => handleResize(detail)}
+      on:resize
+    />
+  {:else}
+    <slot />
+  {/if}
 </div>
 
 <style lang="scss">
@@ -29,9 +37,19 @@
   div {
     position: relative;
     display: flex;
-    flex-direction: column;
     background-color: $panelBackgroundColour;
+
+    &.resizable {
+      flex-direction: row;
+      > section {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+      }
+    }
     &:not(.resizable) {
+      flex-direction: column;
       border-right: 1px solid $panelBorderColour;
     }
   }
