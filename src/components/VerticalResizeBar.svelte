@@ -33,7 +33,7 @@
 </script>
 
 <div bind:this={elem}>
-  <!-- Add some drag handle -->
+  <div />
 </div>
 
 <style lang="scss">
@@ -44,15 +44,26 @@
     right: 0;
 
     height: 100%;
-    width: 5px;
+    width: 10px;
 
-    background: $panelBorderColour;
-    &:not(:hover) {
-      transition: background-color 250ms;
-    }
-    &:hover, &:active {
+    display: flex;
+    justify-content: center;
+
+    &:hover > div,
+    &:active > div {
       background: lighten($panelBorderColour, 20%);
     }
+
+    &:not(:hover) > div {
+      transition: background-color 250ms;
+    }
+
+    > div {
+      width: 2px;
+      position: relative;
+      background: $panelBorderColour;
+    }
+
     cursor: col-resize;
   }
 </style>
