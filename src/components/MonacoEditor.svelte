@@ -17,6 +17,8 @@
     console.log(Monaco);
     editor = Monaco.editor.create(monacoElem, {
       automaticLayout: true,
+      folding: false,
+
       value: ["function x() {", '\tconsole.log("Hello world!");', "}"].join(
         "\n"
       ),
