@@ -10,14 +10,14 @@
 
   let loadedCounter = 0;
 
-  UIState.subscribe(() => {
-    triggerMonacoLayoutRefresh();
-  });
+  UIState.subscribe(() => setTimeout(() => triggerMonacoLayoutRefresh(), 0));
 </script>
 
 <svelte:head>
   <title>Commentree</title>
 </svelte:head>
+
+<svelte:window on:resize={() => triggerMonacoLayoutRefresh()} />
 
 <main>
   <div class="loader" class:active={loadedCounter < 2} />
