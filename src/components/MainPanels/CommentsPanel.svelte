@@ -7,7 +7,7 @@
   import registerMonacoScrollSync from "../MonacoScrollSync";
 </script>
 
-<PanelBase styles={{ flex: 1 }} options={{ resizeBar: false }}>
+<PanelBase styles={{ flex: 1, "min-width": '100px' }} options={{ resizeBar: false }}>
   <div>Comments</div>
   <MonacoEditor
     options={{
