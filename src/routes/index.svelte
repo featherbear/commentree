@@ -6,6 +6,7 @@
   import Toolbar from "../components/MainPanels/ToolbarPanel.svelte";
 
   import uistate from "../stores/UIState";
+  let loadedCounter = 0;
 </script>
 
 <svelte:head>
@@ -13,10 +14,11 @@
 </svelte:head>
 
 <main>
+  <div class="loader" class:active={loadedCounter < 2} />
   <Toolbar />
   {#if $uistate.filePanelVisible} <FilePanel /> {/if}
-  <CodePanel />
-  <NotesPanel />
+  <CodePanel on:loaded={() => loadedCounter++} />
+  <NotesPanel on:loaded={() => loadedCounter++} />
 </main>
 
 <slot />
@@ -45,5 +47,18 @@
     user-select: none;
 
     color: $foregroundColour;
+  }
+
+  .loader {
+    z-index: 100;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $panelBackgroundColour;
+    &:not(.active) {
+      display: none
+    }
   }
 </style>
