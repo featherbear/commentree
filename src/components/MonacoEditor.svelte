@@ -1,6 +1,6 @@
 <script lang="ts">
   import type MonacoType from "monaco-editor";
-  import { onMount } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
 
   let monacoElem;
   let editor: MonacoType.editor.IStandaloneCodeEditor;
@@ -9,6 +9,8 @@
   export let postLoadCallback: (
     editor: MonacoType.editor.IStandaloneCodeEditor
   ) => void = () => {};
+
+  const dispatch = createEventDispatcher();
 
   onMount(async () => {
     let Monaco = await import("monaco-editor");
@@ -25,6 +27,8 @@
     });
     console.log(editor);
     setTimeout(() => postLoadCallback?.(editor), 0);
+
+    dispatch("loaded");
 
     return () => {
       editor.dispose();
