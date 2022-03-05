@@ -9,6 +9,9 @@
 <PanelBase styles={{ flex: 1 }} options={{ resizeBar: false }}>
   <div>Comments</div>
   <MonacoEditor
+    options={{
+      lineNumbers: "off",
+    }}
     postLoadCallback={(editor) => {
       registerMonacoScrollSync(editor);
     }}

@@ -15,6 +15,7 @@
       scrollbar: {
         vertical: "hidden",
       },
+      overviewRulerLanes: 0,
     }}
     postLoadCallback={(editor) => {
       const messageContribution = editor.getContribution(
