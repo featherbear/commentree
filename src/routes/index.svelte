@@ -5,7 +5,8 @@
   import NotesPanel from "../components/MainPanels/CommentsPanel.svelte";
   import Toolbar from "../components/MainPanels/ToolbarPanel.svelte";
 
-  import uistate from "../stores/UIState";
+  import UIState from "../stores/UIState";
+
   let loadedCounter = 0;
 </script>
 
@@ -16,7 +17,7 @@
 <main>
   <div class="loader" class:active={loadedCounter < 2} />
   <Toolbar />
-  {#if $uistate.filePanelVisible} <FilePanel /> {/if}
+  {#if $UIState.filePanelVisible} <FilePanel /> {/if}
   <CodePanel on:loaded={() => loadedCounter++} />
   <NotesPanel on:loaded={() => loadedCounter++} />
 </main>
@@ -24,8 +25,8 @@
 <slot />
 
 <style lang="scss">
-  @import '../styles/font.scss';
-  @import '../styles/site.scss';
+  @import "../styles/font.scss";
+  @import "../styles/site.scss";
 
   :global(html),
   :global(body) {
