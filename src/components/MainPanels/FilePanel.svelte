@@ -1,8 +1,8 @@
 <script lang="ts">
   import a from "../../stores/UIState";
   import PanelBase from "../Bases/PanelBase.svelte";
-  import { favourites } from '../../stores/AppState'
-  let FavouritesStore = favourites.store
+  import { favourites } from "../../stores/AppState";
+  let FavouritesStore = favourites.store;
 </script>
 
 <PanelBase
@@ -11,17 +11,28 @@
   }}
   options={{ resizeBar: false }}
 >
-<div>
-  <span>Favourites</span>
   <div>
-    {#each $FavouritesStore as path}
-      <div>{path}</div>
-    {/each}
+    {#if $FavouritesStore.length > 0}
+      <section title="Favourites">
+        {#each $FavouritesStore as path}
+          <div>{path}</div>
+        {/each}
+      </section>
+    {/if}
   </div>
-</div>
-<!-- Somehow structure it -->
-<div>Files</div>
+  <section title="Files">File tree goes here</section>
 
-<button on:click={() => {
-}}>aaa</button>
+  <button
+    on:click={() => {
+      favourites.set(Math.random());
+    }}>aaa</button
+  >
 </PanelBase>
+
+<style lang="scss">
+  section {
+    &::before {
+      content: attr(title);
+    }
+  }
+</style>
