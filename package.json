@@ -18,6 +18,7 @@
     "@poppanator/sveltekit-svg": "^0.3.1",
     "@sveltejs/adapter-static": "next",
     "@sveltejs/kit": "next",
+    "monaco-editor": "^0.32.1",
     "postcss": "^8.4.7",
     "sass": "^1.49.9",
     "svelte": "^3.44.0",
