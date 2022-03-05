@@ -14,9 +14,7 @@
 
   onMount(async () => {
     let Monaco = await import("monaco-editor");
-    console.log(Monaco);
     editor = Monaco.editor.create(monacoElem, {
-      automaticLayout: true,
       folding: false,
 
       value: ["function x() {", '\tconsole.log("Hello world!");', "}"].join(
@@ -27,7 +25,6 @@
       },
       ...options,
     });
-    console.log(editor);
     postLoadCallback?.(editor);
 
     dispatch("loaded");

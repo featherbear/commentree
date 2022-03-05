@@ -4,6 +4,7 @@
   import UIState from "../../stores/UIState";
   import PanelBase from "../Bases/PanelBase.svelte";
   import MonacoEditor from "../MonacoEditor.svelte";
+  import registerMonacoLayoutTrigger from "../MonacoLayoutTrigger";
   import registerMonacoScrollSync from "../MonacoScrollSync";
 </script>
 
@@ -21,12 +22,10 @@
       const messageContribution = editor.getContribution(
         "editor.contrib.messageController"
       );
-      const diposable = editor.onDidAttemptReadOnlyEdit(() => {
-        messageContribution.dispose();
-      });
+      editor.onDidAttemptReadOnlyEdit(() => messageContribution.dispose());
 
       registerMonacoScrollSync(editor);
+      registerMonacoLayoutTrigger(editor);
     }}
-    on:loaded
   />
 </PanelBase>

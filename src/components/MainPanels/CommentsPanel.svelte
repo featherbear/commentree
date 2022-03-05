@@ -3,6 +3,7 @@
 
   import PanelBase from "../Bases/PanelBase.svelte";
   import MonacoEditor from "../MonacoEditor.svelte";
+  import registerMonacoLayoutTrigger from "../MonacoLayoutTrigger";
   import registerMonacoScrollSync from "../MonacoScrollSync";
 </script>
 
@@ -14,7 +15,7 @@
     }}
     postLoadCallback={(editor) => {
       registerMonacoScrollSync(editor);
+      registerMonacoLayoutTrigger(editor);
     }}
-    on:loaded
   />
 </PanelBase>

@@ -6,8 +6,13 @@
   import Toolbar from "../components/MainPanels/ToolbarPanel.svelte";
 
   import UIState from "../stores/UIState";
+  import { triggerMonacoLayoutRefresh } from "../components/MonacoLayoutTrigger";
 
   let loadedCounter = 0;
+
+  UIState.subscribe(() => {
+    triggerMonacoLayoutRefresh();
+  });
 </script>
 
 <svelte:head>

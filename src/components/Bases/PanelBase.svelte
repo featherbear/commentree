@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { triggerMonacoLayoutRefresh } from "../MonacoLayoutTrigger";
+
   import VerticalResizeBar from "../VerticalResizeBar.svelte";
   let elem: HTMLElement;
   export let styles = {};
@@ -9,6 +11,7 @@
   function handleResize(offset) {
     styles["width"] =
       Math.max(parseInt(getComputedStyle(elem, "").width) - offset, 100) + "px";
+    triggerMonacoLayoutRefresh();
   }
 </script>
 
