@@ -94,6 +94,7 @@
 <style lang="scss">
   @import "../../../styles/site.scss";
   main {
+    flex: 1;
     overflow-y: auto;
   }
 
