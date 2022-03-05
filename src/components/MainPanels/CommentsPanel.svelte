@@ -4,10 +4,14 @@
   import PanelBase from "../Bases/PanelBase.svelte";
   import MonacoEditor from "../MonacoEditor.svelte";
   import registerMonacoLayoutTrigger from "../MonacoLayoutTrigger";
+  import registerMonacoLineSync from "../MonacoLineSync";
   import registerMonacoScrollSync from "../MonacoScrollSync";
 </script>
 
-<PanelBase styles={{ flex: 1, "min-width": '100px' }} options={{ resizeBar: false }}>
+<PanelBase
+  styles={{ flex: 1, "min-width": "100px" }}
+  options={{ resizeBar: false }}
+>
   <div>Comments</div>
   <MonacoEditor
     options={{
@@ -15,6 +19,7 @@
     }}
     postLoadCallback={(editor) => {
       registerMonacoScrollSync(editor);
+      registerMonacoLineSync(editor);
       registerMonacoLayoutTrigger(editor);
     }}
     on:loaded

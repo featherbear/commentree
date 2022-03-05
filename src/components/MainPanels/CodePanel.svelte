@@ -5,6 +5,7 @@
   import PanelBase from "../Bases/PanelBase.svelte";
   import MonacoEditor from "../MonacoEditor.svelte";
   import registerMonacoLayoutTrigger from "../MonacoLayoutTrigger";
+  import registerMonacoLineSync from "../MonacoLineSync";
   import registerMonacoScrollSync from "../MonacoScrollSync";
 </script>
 
@@ -25,6 +26,7 @@
       editor.onDidAttemptReadOnlyEdit(() => messageContribution.dispose());
 
       registerMonacoScrollSync(editor);
+      registerMonacoLineSync(editor);
       registerMonacoLayoutTrigger(editor);
     }}
     on:loaded
