@@ -26,7 +26,7 @@
       ...options,
     });
     console.log(editor);
-    setTimeout(() => postLoadCallback?.(editor), 0);
+    postLoadCallback?.(editor);
 
     dispatch("loaded");
 
