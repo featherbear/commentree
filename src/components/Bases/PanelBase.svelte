@@ -29,6 +29,6 @@
     display: flex;
     flex-direction: column;
     background-color: $panelBackgroundColour;
-    border-right: 1px solid darken($panelBackgroundColour, 20%);
+    border-right: 1px solid $panelBorderColour;
   }
 </style>
