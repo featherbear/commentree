@@ -92,7 +92,7 @@
     }
 
     &:not(:first-child) {
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      border-top: 1px solid $panelSectionBorderColour;
     }
   }
 

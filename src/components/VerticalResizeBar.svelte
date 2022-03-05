@@ -37,6 +37,7 @@
 </div>
 
 <style lang="scss">
+  @import "../styles/site.scss";
   div {
     position: absolute;
     top: 0;
@@ -45,8 +46,13 @@
     height: 100%;
     width: 5px;
 
-    background: red;
-
+    background: $panelBorderColour;
+    &:not(:hover) {
+      transition: background-color 250ms;
+    }
+    &:hover, &:active {
+      background: lighten($panelBorderColour, 20%);
+    }
     cursor: col-resize;
   }
 </style>

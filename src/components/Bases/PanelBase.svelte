@@ -7,14 +7,14 @@
   };
 
   function handleResize(offset) {
-    console.log("resizes", offset);
     styles["width"] =
-      Math.max(parseInt(getComputedStyle(elem, "").width) - offset, 50) + "px";
+      Math.max(parseInt(getComputedStyle(elem, "").width) - offset, 100) + "px";
   }
 </script>
 
 <div
   bind:this={elem}
+  class:resizable={options.resizeBar}
   style={Object.entries(styles)
     .map(([k, v]) => `${k}: ${v};`)
     .join(" ")}
@@ -31,6 +31,8 @@
     display: flex;
     flex-direction: column;
     background-color: $panelBackgroundColour;
-    border-right: 1px solid $panelBorderColour;
+    &:not(.resizable) {
+      border-right: 1px solid $panelBorderColour;
+    }
   }
 </style>
