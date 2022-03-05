@@ -33,21 +33,16 @@ export const favourites = {
 }
 
 export const serialisation = {
-    export() {
-        let payload =
-
-        {
+    export(raw: boolean = false) {
+        let payload = {
             favourites: Array.from(data.favourites),
         };
 
         payload = { ...payload, ...{ application: 'commentree' } }
-        payload = [payload, payload, payload, payload]
-        payload = [payload, payload, payload, payload]
-        payload = [payload, payload, payload, payload]
-        payload = [payload, payload, payload, payload]
-        payload = [payload, payload, payload, payload]
 
         let string_payload = JSON.stringify(payload)
+        if (raw) return string_payload
+
         let uint_payload = new TextEncoder().encode(string_payload)
         let compressed_payload = comp.deflate(uint_payload, 9)
         let encoded_payload = convTool.encode(compressed_payload)
@@ -55,14 +50,27 @@ export const serialisation = {
         return encoded_payload
     },
     import(encoded_payload: string) {
-        let decoded_payload = convTool.decode(encoded_payload)
-        let decompressed_payload = comp.inflate(decoded_payload)
-        let uint_payload = new Uint8Array(decompressed_payload)
-        let string_payload = new TextDecoder('utf-8').decode(uint_payload)
-        let payload = JSON.parse(string_payload)
+        let payload;
+        try {
+            try {
+                payload = JSON.parse(encoded_payload)
+            } catch {
+                let decoded_payload = convTool.decode(encoded_payload)
+                let decompressed_payload = comp.inflate(decoded_payload)
+                let uint_payload = new Uint8Array(decompressed_payload)
+                let string_payload = new TextDecoder('utf-8').decode(uint_payload)
+                payload = JSON.parse(string_payload)
+            }
 
-        return payload
+            return verifyPayload(payload)
+        } catch {
+            return null
+        }
     }
-
 }
 
+function verifyPayload(payload: object) {
+    if (typeof payload !== 'object') return null
+    if (payload['application'] !== 'commentree') return null
+    return payload
+}
