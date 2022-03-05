@@ -42,6 +42,7 @@
       // Favourite icon
       line-height: 0;
       margin: 0 5px;
+      min-width: 0.8em;
       width: 0.8em;
 
       $starredColour: #f8b714;
