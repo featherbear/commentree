@@ -1,4 +1,5 @@
-import { readable, type Subscriber } from "svelte/store";
+import { readable } from "svelte/store";
+import type { Subscriber } from 'svelte/store'
 
 let data = {
     favourites: new Set<string>()
@@ -16,7 +17,7 @@ export const favourites = {
         } else {
             data.favourites.delete(file)
         }
-        
+
         _updateStore(favourites.list())
     },
     store: readable<string[]>([], (update) => {

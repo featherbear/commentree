@@ -8,6 +8,10 @@
   import uistate from "../stores/UIState";
 </script>
 
+<svelte:head>
+  <title>Commentree</title>
+</svelte:head>
+
 <div>
   <Toolbar />
   {#if $uistate.filePanelVisible} <FilePanel /> {/if}
@@ -27,12 +31,14 @@
   }
 
   div {
-     position: absolute;
-     top: 0;
-     left: 0;
-     right: 0;
-     bottom: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     flex-direction: row;
+
+    user-select: none;
   }
 </style>
