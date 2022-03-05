@@ -18,6 +18,7 @@
   }}
 >
   <div
+    class:active={$UIState.filePanelVisible}
     on:click={() => {
       toggleFilePanel();
     }}
@@ -39,9 +40,41 @@
 </PanelBase>
 
 <style lang="scss">
+  @import '../../styles/site.scss';
+
   div {
     height: 30px;
     cursor: pointer;
     padding: 10px;
+    position: relative;
+
+    & {
+      opacity: 0.6;
+      &:hover,
+      &.active {
+        opacity: 1;
+      }
+    }
+    & {
+      // Active panel bar
+      &.active::before {
+        border-left-width: 3px;
+      }
+      &::before {
+        border-style: solid;
+        border-color: $accentColour;
+        border-width: 0;
+        transition: border-width 100ms ease;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        content: "";
+      }
+    }
+  }
+
+  section {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
 </style>
