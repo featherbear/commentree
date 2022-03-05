@@ -6,14 +6,7 @@ export default function registerMonacoScrollSync(editor: MonacoType.editor.IStan
     listeners.push(editor)
 
     editor.onDidScrollChange((evt) => {
-        listeners.filter(e => e !== editor).forEach((editor) => {
-            editor.setScrollPosition(
-                {
-                    scrollLeft: evt.scrollLeft,
-                    scrollTop: evt.scrollTop,
-                },
-                0
-            );
-        })
+        if (!evt.scrollTopChanged) return
+        listeners.filter(e => e !== editor).forEach((editor) => editor.setScrollTop(evt.scrollTop))
     });
 }
