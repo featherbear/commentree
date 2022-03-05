@@ -1,0 +1,11 @@
+@import url(https://cdn.jsdelivr.net/npm/firacode@6.2.0/distr/fira_code.css);
+
+:global(html) {
+  font-family: 'Fira Code', monospace;
+
+  @supports (font-variation-settings: normal) {
+    font-family: 'Fira Code VF', monospace;
+  }
+
+  font-size: 16px;
+}

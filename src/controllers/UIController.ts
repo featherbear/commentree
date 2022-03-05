@@ -9,3 +9,14 @@ export function toggleFilePanel(open?: boolean) {
         }
     })
 }
+
+export function toggleFavourites(open?: boolean) {
+    UIState.update(v => {
+        let newState = (typeof open === 'undefined') ? !v.favouritesVisible : !!open
+        return {
+            ...v,
+            favouritesVisible: newState
+        }
+    })
+}
+

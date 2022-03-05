@@ -1,7 +1,7 @@
 <script>
   import CodePanel from "../components/MainPanels/CodePanel.svelte";
 
-  import FilePanel from "../components/MainPanels/FilePanel.svelte";
+  import FilePanel from "../components/MainPanels/FilePanel/FilePanel.svelte";
   import NotesPanel from "../components/MainPanels/CommentsPanel.svelte";
   import Toolbar from "../components/MainPanels/ToolbarPanel.svelte";
 
@@ -12,16 +12,19 @@
   <title>Commentree</title>
 </svelte:head>
 
-<div>
+<main>
   <Toolbar />
   {#if $uistate.filePanelVisible} <FilePanel /> {/if}
   <CodePanel />
   <NotesPanel />
-</div>
+</main>
 
 <slot />
 
 <style lang="scss">
+  @import '../styles/font.scss';
+  @import '../styles/site.scss';
+
   :global(html),
   :global(body) {
     width: 100vw;
@@ -30,7 +33,7 @@
     padding: 0;
   }
 
-  div {
+  main {
     position: absolute;
     top: 0;
     left: 0;
@@ -40,5 +43,7 @@
     flex-direction: row;
 
     user-select: none;
+
+    color: $foregroundColour;
   }
 </style>

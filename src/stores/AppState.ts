@@ -11,8 +11,12 @@ export const favourites = {
     list() {
         return Array.from(data.favourites)
     },
-    set(file: string, add: boolean = true) {
-        if (add) {
+    toggle(file: string, forceState: boolean = null) {
+        let nextState = forceState
+        if (nextState === null) {
+            nextState = !data.favourites.has(file)
+        }
+        if (nextState) {
             data.favourites.add(file)
         } else {
             data.favourites.delete(file)

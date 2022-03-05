@@ -1,5 +1,6 @@
 import { writable } from "svelte/store";
 
 export default writable({
-    filePanelVisible: false
+    filePanelVisible: false,
+    favouritesVisible: false,
 })
