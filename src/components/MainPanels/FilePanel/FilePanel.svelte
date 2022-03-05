@@ -1,6 +1,9 @@
 <script lang="ts">
   import UIState from "../../../stores/UIState";
-  import { toggleFavourites } from "../../../controllers/UIController";
+  import {
+    toggleFavourites,
+    toggleMetadata,
+  } from "../../../controllers/UIController";
 
   import PanelBase from "../../Bases/PanelBase.svelte";
   import FileEntry from "./FileEntry.svelte";
@@ -15,58 +18,71 @@
 <PanelBase
   styles={{
     width: "200px",
+    "min-width": "100px",
   }}
-  options={{ resizeBar: false }}
 >
-  {#if $FavouritesStore.length > 0}
-    <section
-      transition:slide
-      type="favourites"
-      class:is-open={$UIState.favouritesVisible}
-    >
-      <header
-        on:click={() => {
-          toggleFavourites();
-        }}
+  <main>
+    {#if $FavouritesStore.length > 0}
+      <section
+        transition:slide
+        type="collapsible"
+        class:is-open={$UIState.favouritesVisible}
       >
-        <span><ChevronIcon fill="white" /></span>Favourites
-      </header>
-      {#if $UIState.favouritesVisible}
-        <div transition:slide>
-          {#each $FavouritesStore as path}
-            <FileEntry {path} />
-          {/each}
-        </div>
-      {/if}
+        <header
+          on:click={() => {
+            toggleFavourites();
+          }}
+        >
+          <span><ChevronIcon fill="white" /></span>Favourites
+        </header>
+        {#if $UIState.favouritesVisible}
+          <div transition:slide>
+            {#each $FavouritesStore as path}
+              <FileEntry {path} />
+            {/each}
+          </div>
+        {/if}
+      </section>
+    {/if}
+    <section>
+      <header>Files</header>
+      <FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
+      <FileEntry path={"abc"} />
     </section>
-  {/if}
-  <section>
-    <header>Files</header>
-    <FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-    <FileEntry path={"abc"} />
+  </main>
+
+  <section type="collapsible" class:is-open={$UIState.metadataVisible}>
+    <header
+      on:click={() => {
+        toggleMetadata();
+      }}
+    >
+      <span><ChevronIcon fill="white" /></span>Metadata
+    </header>
+    {#if $UIState.metadataVisible}
+      <div transition:slide>metadata</div>
+    {/if}
   </section>
-  <div spacer style="flex: 1" />
-  <section title="Metadata">File metadata goes here</section>
 
   <button
     on:click={() => {
@@ -77,6 +93,10 @@
 
 <style lang="scss">
   @import "../../../styles/site.scss";
+  main {
+    overflow-y: auto;
+  }
+
   section {
     position: relative;
 
@@ -87,28 +107,27 @@
       width: 100%;
       height: 20px;
       background-color: darken($panelBackgroundColour, 5%);
-      content: attr(title);
       padding: 5px 0;
     }
 
     &:not(:first-child) {
-      border-top: 1px solid $panelSectionBorderColour;
+      border-top: 1px solid $panelBorderColour;
     }
-  }
 
-  section[type="favourites"] {
-    > header {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
+    &[type="collapsible"] {
+      > header {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
 
-      > span {
-        width: 12px;
-        margin: 0 5px;
+        > span {
+          width: 12px;
+          margin: 0 5px;
+        }
       }
-    }
-    &.is-open > header > span {
-      transform: rotate(-90deg);
+      &:not(.is-open) > header > span {
+        transform: rotate(-90deg);
+      }
     }
   }
 </style>

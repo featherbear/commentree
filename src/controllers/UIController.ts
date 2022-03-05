@@ -20,3 +20,13 @@ export function toggleFavourites(open?: boolean) {
     })
 }
 
+export function toggleMetadata(open?: boolean) {
+    UIState.update(v => {
+        let newState = (typeof open === 'undefined') ? !v.metadataVisible : !!open
+        return {
+            ...v,
+            metadataVisible: newState
+        }
+    })
+}
+
