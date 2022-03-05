@@ -17,5 +17,6 @@
       registerMonacoScrollSync(editor);
       registerMonacoLayoutTrigger(editor);
     }}
+    on:loaded
   />
 </PanelBase>
