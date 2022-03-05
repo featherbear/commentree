@@ -49,7 +49,7 @@ export const serialisation = {
 
         return encoded_payload
     },
-    import(encoded_payload: string) {
+    parse(encoded_payload: string) {
         let payload;
         try {
             try {
@@ -66,6 +66,16 @@ export const serialisation = {
         } catch {
             return null
         }
+    },
+    import(payload: string) {
+        let object = serialisation.parse(payload)
+        if (!object) return false
+        
+        console.log("Loaded data", object);
+        // TODO: PARSE
+
+        return true;
+
     }
 }
 

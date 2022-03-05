@@ -28,7 +28,14 @@
     <FilesIcon fill="white" />
   </div>
   <section>
-    <div>
+    <div
+      on:click={() => {
+        let input = prompt("Import data");
+        if (!serialisation.import(input)) {
+          alert("Failed to import data");
+        }
+      }}
+    >
       <LoadIcon fill="white" />
     </div>
     <div
