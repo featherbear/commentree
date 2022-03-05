@@ -2,6 +2,8 @@
   import { toggleFilePanel } from "../../controllers/UIController";
 
   import UIState from "../../stores/UIState";
+  import { serialisation } from "../../stores/AppState";
+
   import PanelBase from "../Bases/PanelBase.svelte";
 
   import SaveIcon from "../../lineicons-free/save.svg";
@@ -31,7 +33,7 @@
     </div>
     <div
       on:click={() => {
-        prompt("Exported data", "sdad");
+        prompt("Exported data", serialisation.export());
       }}
     >
       <SaveIcon fill="white" />

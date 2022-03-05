@@ -70,6 +70,11 @@
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
+"@types/deflate-js@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@types/deflate-js/-/deflate-js-0.2.0.tgz#2c5f27e3867128dbeea1fb282edae7878d7a91c3"
+  integrity sha512-5AqyeRYslgPL4MFtm+KrFLV0sIey7e+KNqrytJM3Nsd7Rrb++VO12HrO8n7OYcitC3S0qKoBshUL7NtzrS0hoA==
+
 "@types/node@*":
   version "17.0.21"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.21.tgz#864b987c0c68d07b4345845c3e63b75edd143644"
@@ -197,6 +202,11 @@ debug@^4.3.3:
   integrity sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==
   dependencies:
     ms "2.1.2"
+
+deflate-js@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/deflate-js/-/deflate-js-0.2.3.tgz#f85abb58ebc5151a306147473d57c3e4f7e4426b"
+  integrity sha1-+Fq7WOvFFRowYUdHPVfD5PfkQms=
 
 detect-indent@^6.0.0:
   version "6.1.0"
