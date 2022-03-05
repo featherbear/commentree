@@ -1,8 +1,8 @@
 <script lang="ts">
   import { toggleFilePanel } from "../../controllers/UIController";
+  import { serialisation } from "../../controllers/AppState";
 
   import UIState from "../../stores/UIState";
-  import { serialisation } from "../../stores/AppState";
 
   import PanelBase from "../Bases/PanelBase.svelte";
 
