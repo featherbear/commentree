@@ -9,17 +9,17 @@
     let pos;
 
     function resize(e: MouseEvent) {
-      let changeX = pos - e.x
-      pos = e.x
+      let changeX = pos - e.x;
+      pos = e.x;
 
-      dispatch("resize", changeX)      
+      dispatch("resize", changeX);
     }
 
     elem.addEventListener(
       "mousedown",
       (e) => {
         pos = e.x;
-        document.addEventListener("mousemove", resize, false)
+        document.addEventListener("mousemove", resize, false);
       },
       false
     );
