@@ -31,6 +31,7 @@
     <div
       on:click={() => {
         let input = prompt("Import data");
+        if (!input) return;
         if (!serialisation.import(input)) {
           alert("Failed to import data");
         }
