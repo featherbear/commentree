@@ -2,23 +2,29 @@
 import comp from 'deflate-js'
 import * as convTool from 'uint8-to-base64'
 import * as Stores from '../stores/AppState'
-import type { DataType } from '../stores/AppState'
 import { get, type Writable } from 'svelte/store'
 
 export const serialisation = {
     export(raw: boolean = false) {
-        let payload: { [k in keyof DataType]: any } = {
+        let payload = {
             favourites: favourites.list(),
+            files: files.list(),
+            comments: comments.serialisation.export()
         };
 
         payload = { ...payload, ...{ application: 'commentree' } }
 
         let string_payload = JSON.stringify(payload)
+        
+        console.debug(string_payload)
+
         if (raw) return string_payload
 
         let uint_payload = new TextEncoder().encode(string_payload)
         let compressed_payload = comp.deflate(uint_payload, 9)
         let encoded_payload = convTool.encode(compressed_payload)
+
+        console.debug(encoded_payload)
 
         return encoded_payload
     },
@@ -48,13 +54,14 @@ export const serialisation = {
 
         files.set(object.files)
         favourites.set(object.favourites)
+        comments.serialisation.import(object.comments)
 
         return true;
 
     }
 }
 
-function verifyPayload(payload: { [k in keyof DataType]: any }) {
+function verifyPayload(payload) {
     if (typeof payload !== 'object') return null
     if (payload['application'] !== 'commentree') return null
     return payload
@@ -96,6 +103,14 @@ function generateSetHandler(store: Writable<string[]>) {
 export const files = generateSetHandler(Stores.files)
 export const favourites = generateSetHandler(Stores.favourites)
 export const comments = {
+    serialisation: {
+        export() {
+            return get(Stores.comments)
+        },
+        import(data) {
+            Stores.comments.set(data)
+        }
+    },
     get(path: string) {
         return get(Stores.comments)[path] ?? ""
     },
