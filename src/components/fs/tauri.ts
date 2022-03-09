@@ -4,9 +4,12 @@
  * Whitelist feature pending: https://github.com/tauri-apps/tauri/discussions/3567#discussioncomment-2261797
  */
 
- import { invoke } from '@tauri-apps/api/tauri'
+import { invoke } from '@tauri-apps/api/tauri'
 
- export function listDir() {
-    invoke('my_custom_command', { invokeMessage: 'Hello!' })
-
- }
+export async function select_dir(): Promise<string> {
+   return invoke('select_dir')
+}
+export async function list_dir(dir): Promise<string[]> {
+   let res: string = await invoke('list_dir', { dir })
+   return JSON.parse(res)
+}
