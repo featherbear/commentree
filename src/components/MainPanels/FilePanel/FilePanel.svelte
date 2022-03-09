@@ -9,8 +9,9 @@
   import FileEntry from "./FileEntry.svelte";
 
   import ChevronIcon from "../../../lineicons-free/chevron-down.svg";
-  import { favourites } from "../../../stores/AppState";
+  import { favourites, files } from "../../../stores/AppState";
   let FavouritesStore = favourites.store;
+  let FilesStore = files.store;
 
   import { slide } from "svelte/transition";
 </script>
@@ -46,28 +47,9 @@
     {/if}
     <section>
       <header>Files</header>
-      <FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} /><FileEntry path={"abc"} />
-      <FileEntry path={"abc"} />
+      {#each $FilesStore as path}
+        <FileEntry {path} />
+      {/each}
     </section>
   </main>
 

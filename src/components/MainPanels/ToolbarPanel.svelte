@@ -10,7 +10,10 @@
   import LoadIcon from "../../lineicons-free/inbox.svg";
   import FilesIcon from "../../lineicons-free/radio-button.svg";
 
-  import {listDir} from  '../fs'
+  import { files } from "../../stores/AppState";
+  let FilesStore = files.store;
+
+  import * as fs from "../fs";
 </script>
 
 <PanelBase
@@ -31,9 +34,13 @@
   </div>
   <section>
     <div>
-      <button on:click={() => {
-        listDir()
-      }} >test</button>
+      <button
+        on:click={async () => {
+          let dir = await fs.select_dir();
+          let list = await fs.list_dir(dir);
+          files.set(list);
+        }}>test</button
+      >
     </div>
     <div
       on:click={() => {
