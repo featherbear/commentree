@@ -1,5 +1,6 @@
 import UIState from "../stores/UIState";
 import type { UIStateType } from '../stores/UIState'
+import { get } from "svelte/store";
 
 function generateToggleBooleanState(name: keyof UIStateType) {
     return function (open?: boolean) {
@@ -13,15 +14,24 @@ function generateToggleBooleanState(name: keyof UIStateType) {
     }
 }
 
-function generateSetState(name: keyof UIStateType) {
-    return function (value: any) {
-        UIState.update(v => {
-            return {
-                ...v,
-                [name]: value
-            }
-        })
+function generateSetState<T extends any>(name: keyof UIStateType) {
+
+    /**
+     * 
+     * @param value New value
+     * @param forceUpdate Should the state update be forced even if the update value is the same
+     */
+    function fn(value: T, forceUpdate: boolean = false) {
+        if (get(UIState)[name] !== value || forceUpdate)
+            UIState.update(v => {
+                return {
+                    ...v,
+                    [name]: value
+                }
+            })
     }
+
+    return fn
 }
 
 export const toggleFilePanel = generateToggleBooleanState('filePanelVisible')
