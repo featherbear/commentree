@@ -1,18 +1,8 @@
 import { writable } from "svelte/store";
 
-export type UIStateType = {
-    filePanelVisible: boolean
-    favouritesVisible: boolean
-    metadataVisible: boolean
-    activeFile: string
-}
+export const filePanelVisible = writable(false)
+export const favouritesVisible = writable(false)
+export const metadataVisible = writable(false)
 
-// TODO: Make each state its own store
-export default writable<UIStateType>({
-    filePanelVisible: false,
-    favouritesVisible: false,
-    metadataVisible: false,
-    activeFile: null
-})
-
-export const activeFileContent = writable<string>("")
+export type activeFileType = { path: string, content: Promise<string> }
+export const activeFile = writable<activeFileType>()

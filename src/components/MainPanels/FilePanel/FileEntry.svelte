@@ -2,16 +2,16 @@
   import StarIcon from "../../../lineicons-free/star.svg";
   import StarFilledIcon from "../../../lineicons-free/star-filled.svg";
 
-  import { favourites } from "../../../stores/AppState";
-  import { setActiveFile } from "../../../controllers/UIController";
-  let FavouritesStore = favourites.store;
+  import { openFile } from "../../../controllers/UIController";
+  import { favourites } from "../../../controllers/AppController";
+  import { favourites as FavouritesStore } from "../../../stores/AppState";
 
   export let path;
 </script>
 
 <div
   on:click={() => {
-    setActiveFile(path);
+    openFile(path);
   }}
 >
   <span

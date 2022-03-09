@@ -1,8 +1,9 @@
 
 import comp from 'deflate-js'
 import * as convTool from 'uint8-to-base64'
-import { favourites, replaceData } from '../stores/AppState'
+import * as Stores from '../stores/AppState'
 import type { DataType } from '../stores/AppState'
+import { get, type Writable } from 'svelte/store'
 
 export const serialisation = {
     export(raw: boolean = false) {
@@ -45,14 +46,8 @@ export const serialisation = {
 
         console.log("Loaded data", object);
 
-        let newData: DataType = {
-            files: new Set(object.files),
-            favourites: new Set(object.favourites)
-        }
-
-        console.log("Updating data", newData)
-
-        replaceData(newData)
+        files.set(object.files)
+        favourites.set(object.favourites)
 
         return true;
 
@@ -64,3 +59,60 @@ function verifyPayload(payload: { [k in keyof DataType]: any }) {
     if (payload['application'] !== 'commentree') return null
     return payload
 }
+
+function generateSetHandler(store: Writable<string[]>) {
+
+    function list() {
+        return get(store)
+    }
+
+    function toggle(file: string, forceState: boolean = null) {
+        let nextState = forceState
+
+        let current = get(store)
+
+        if (nextState === null) {
+            nextState = current.includes(file)
+        }
+        if (nextState) {
+            store.set([...current, file])
+        } else {
+            store.set(current.filter(v => v != file))
+        }
+    }
+
+    function set(files: string[]) {
+        store.set(files)
+    }
+
+    return {
+        list,
+        toggle,
+        set,
+        store
+    }
+}
+
+export const files = generateSetHandler(Stores.files)
+export const favourites = generateSetHandler(Stores.favourites)
+export const comments = {
+    get(path: string) {
+        return get(Stores.comments)[path] ?? ""
+    },
+    set(path: string, content: string) {
+        Stores.comments.update(v => ({
+            ...v,
+            [path]: content
+        }))
+    }
+}
+
+export const baseDirectory = {
+    get() {
+        return get(Stores.baseDirectory)
+    },
+    set(path: string) {
+        Stores.baseDirectory.set(path)
+    }
+}
+

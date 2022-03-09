@@ -1,20 +1,15 @@
-import UIState from "../stores/UIState";
-import type { UIStateType } from '../stores/UIState'
-import { get } from "svelte/store";
+import * as UIState from "../stores/UIState";
+import { get, type Writable } from "svelte/store";
+import * as fs from '../components/fs'
 
-function generateToggleBooleanState(name: keyof UIStateType) {
+
+function generateBooleanToggleHandler(store: Writable<boolean>) {
     return function (open?: boolean) {
-        UIState.update(v => {
-            let newState = (typeof open === 'undefined') ? !v[name] : !!open
-            return {
-                ...v,
-                [name]: newState
-            }
-        })
+        store.set(open ?? !get(store))
     }
 }
 
-function generateSetState<T extends any>(name: keyof UIStateType) {
+function generateHandler<T>(store: Writable<T>) {
 
     /**
      * 
@@ -22,19 +17,23 @@ function generateSetState<T extends any>(name: keyof UIStateType) {
      * @param forceUpdate Should the state update be forced even if the update value is the same
      */
     function fn(value: T, forceUpdate: boolean = false) {
-        if (get(UIState)[name] !== value || forceUpdate)
-            UIState.update(v => {
-                return {
-                    ...v,
-                    [name]: value
-                }
-            })
+        if (get(store) !== value || forceUpdate) store.set(value)
     }
 
     return fn
 }
 
-export const toggleFilePanel = generateToggleBooleanState('filePanelVisible')
-export const toggleFavourites = generateToggleBooleanState('favouritesVisible')
-export const toggleMetadata = generateToggleBooleanState('metadataVisible')
-export const setActiveFile = generateSetState('activeFile')
+export const toggleFilePanel = generateBooleanToggleHandler(UIState.filePanelVisible)
+export const toggleFavourites = generateBooleanToggleHandler(UIState.favouritesVisible)
+export const toggleMetadata = generateBooleanToggleHandler(UIState.metadataVisible)
+
+export function openFile(path: string) {
+    if (openFile['lastFile'] === path) return
+
+    UIState.activeFile.set({
+        path,
+        content: fs.read_file(path)
+    })
+
+    openFile['lastFile'] = path;
+}

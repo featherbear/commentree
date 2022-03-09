@@ -1,5 +1,11 @@
 <script lang="ts">
-  import UIState from "../../../stores/UIState";
+  import { favouritesVisible, metadataVisible } from "../../../stores/UIState";
+  import {
+    favourites as FavouritesStore,
+    files as FilesStore,
+  } from "../../../stores/AppState";
+  import { favourites } from "../../../controllers/AppController";
+
   import {
     toggleFavourites,
     toggleMetadata,
@@ -9,9 +15,6 @@
   import FileEntry from "./FileEntry.svelte";
 
   import ChevronIcon from "../../../lineicons-free/chevron-down.svg";
-  import { favourites, files } from "../../../stores/AppState";
-  let FavouritesStore = favourites.store;
-  let FilesStore = files.store;
 
   import { slide } from "svelte/transition";
 </script>
@@ -27,7 +30,7 @@
       <section
         transition:slide
         type="collapsible"
-        class:is-open={$UIState.favouritesVisible}
+        class:is-open={$favouritesVisible}
       >
         <header
           on:click={() => {
@@ -36,7 +39,7 @@
         >
           <span><ChevronIcon fill="white" /></span>Favourites
         </header>
-        {#if $UIState.favouritesVisible}
+        {#if $favouritesVisible}
           <div transition:slide>
             {#each $FavouritesStore as path}
               <FileEntry {path} />
@@ -53,7 +56,7 @@
     </section>
   </main>
 
-  <section type="collapsible" class:is-open={$UIState.metadataVisible}>
+  <section type="collapsible" class:is-open={$metadataVisible}>
     <header
       on:click={() => {
         toggleMetadata();
@@ -61,7 +64,7 @@
     >
       <span><ChevronIcon fill="white" /></span>Metadata
     </header>
-    {#if $UIState.metadataVisible}
+    {#if $metadataVisible}
       <div transition:slide>metadata</div>
     {/if}
   </section>

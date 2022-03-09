@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  import UIState, { activeFileContent } from "../../stores/UIState";
+  import { activeFile } from "../../stores/UIState";
   import PanelBase from "../Bases/PanelBase.svelte";
   import MonacoEditor from "../MonacoEditor.svelte";
   import registerMonacoLayoutTrigger from "../MonacoLayoutTrigger";
@@ -10,7 +10,7 @@
 </script>
 
 <PanelBase styles={{ width: "50%" }}>
-  <div>File: <span>{$UIState.activeFile ?? ""}</span></div>
+  <div>File: <span>{$activeFile?.path ?? ""}</span></div>
   <MonacoEditor
     options={{
       readOnly: true,
@@ -29,9 +29,12 @@
       registerMonacoLineSync(editor);
       registerMonacoLayoutTrigger(editor);
 
-      activeFileContent.subscribe(data => {
-        editor.setValue(data)
-      })
+      activeFile.subscribe((file) => {
+        if (!file) return;
+        file.content.then((data) => {
+          editor.setValue(data);
+        });
+      });
     }}
     on:loaded
   />

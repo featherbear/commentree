@@ -1,8 +1,8 @@
 <script lang="ts">
   import { toggleFilePanel } from "../../controllers/UIController";
-  import { serialisation } from "../../controllers/AppState";
+  import { serialisation } from "../../controllers/AppController";
 
-  import UIState from "../../stores/UIState";
+  import { filePanelVisible } from "../../stores/UIState";
 
   import PanelBase from "../Bases/PanelBase.svelte";
 
@@ -10,8 +10,7 @@
   import LoadIcon from "../../lineicons-free/inbox.svg";
   import FilesIcon from "../../lineicons-free/radio-button.svg";
 
-  import { files } from "../../stores/AppState";
-  let FilesStore = files.store;
+  import { baseDirectory, files } from "../../controllers/AppController";
 
   import * as fs from "../fs";
 </script>
@@ -25,7 +24,7 @@
   }}
 >
   <div
-    class:active={$UIState.filePanelVisible}
+    class:active={$filePanelVisible}
     on:click={() => {
       toggleFilePanel();
     }}
@@ -38,6 +37,7 @@
         on:click={async () => {
           let dir = await fs.select_dir();
           let list = await fs.list_dir(dir);
+          baseDirectory.set(dir);
           files.set(list);
         }}>test</button
       >

@@ -5,20 +5,12 @@
   import NotesPanel from "../components/MainPanels/CommentsPanel.svelte";
   import Toolbar from "../components/MainPanels/ToolbarPanel.svelte";
 
-  import UIState, { activeFileContent } from "../stores/UIState";
+  import { filePanelVisible } from "../stores/UIState";
   import { triggerMonacoLayoutRefresh } from "../components/MonacoLayoutTrigger";
-  import * as fs from "../components/fs";
 
   let loadedCounter = 0;
 
-  let lastFile: string = null;
-
-  UIState.subscribe((state) => {
-    if (lastFile != state.activeFile) {
-      fs.read_file(state.activeFile).then((data) => {
-        $activeFileContent = data;
-      });
-    }
+  filePanelVisible.subscribe(() => {
     setTimeout(() => triggerMonacoLayoutRefresh(), 0);
   });
 </script>
@@ -32,7 +24,7 @@
 <main>
   <div class="loader" class:active={loadedCounter < 2} />
   <Toolbar />
-  {#if $UIState.filePanelVisible} <FilePanel /> {/if}
+  {#if $filePanelVisible} <FilePanel /> {/if}
   <CodePanel on:loaded={() => loadedCounter++} />
   <NotesPanel on:loaded={() => loadedCounter++} />
 </main>
