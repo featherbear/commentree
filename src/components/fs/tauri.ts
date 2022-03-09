@@ -24,11 +24,19 @@ export async function read_file(path): Promise<string> {
    var bytes = new Uint8Array(len);
    for (var i = 0; i < len; i++) bytes[i] = binary_string.charCodeAt(i);
 
-   try {
-      const result = inflate(bytes);
-      return new TextDecoder().decode(result)
-   } catch (err) {
-      console.log(err);
-      return null
+   if (bytes[0] === 1) {
+      // Do zlib inflate
+      try {
+         console.log("Performing zlib inflate");
+         const result = inflate(bytes.slice(1));
+         return new TextDecoder().decode(result)
+      } catch (err) {
+         console.log(err);
+         return null
+      }
+
+   } else {
+      // No need for zlib inflate
+      return new TextDecoder().decode(bytes.slice(1))
    }
 }

@@ -28,14 +28,33 @@ pub fn list_dir(path: String) -> Vec<String> {
 use flate2::read::ZlibEncoder;
 use flate2::Compression;
 use std::fs::File;
-use std::io::prelude::Read;
+use std::io::prelude::{Read, Seek};
+use std::io::{SeekFrom};
 
 pub fn read_file(path: String) -> Vec<u8> {
-    let f = File::open(path).unwrap();
-    let mut z = ZlibEncoder::new(f, Compression::default());
+    let mut f = File::open(path).unwrap();
+    // let metadata = f.metadata().unwrap();
+    // metadata.len();
+    // metadata.permissions();
+    // metadata.created();
+    // metadata.modified();
 
-    let mut buffer: Vec<u8> = Vec::new();
-    z.read_to_end(&mut buffer);
+    let mut z = ZlibEncoder::new(&mut f, Compression::default());
 
-    buffer
+    let mut zlibBuffer: Vec<u8> = Vec::new();
+    z.read_to_end(&mut zlibBuffer);
+
+    // Check if zlib compression was worth it
+    if z.total_in() >= z.total_out() {
+        // result[0] == 0
+        zlibBuffer.insert(0, 1);
+        return zlibBuffer;
+    } else {
+        // result[0] == 1
+        // Well that was a waste of time, no file savings
+        let mut data: Vec<u8> = vec![0];
+        f.seek(SeekFrom::Start(0));
+        f.read_to_end(&mut data);
+        return data;
+    }
 }
