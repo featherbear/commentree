@@ -25,17 +25,17 @@ pub fn list_dir(path: String) -> Vec<String> {
     results
 }
 
-use std::io::prelude::Read;
-use flate2::Compression;
 use flate2::read::ZlibEncoder;
+use flate2::Compression;
 use std::fs::File;
+use std::io::prelude::Read;
 
 pub fn read_file(path: String) -> Vec<u8> {
     let f = File::open(path).unwrap();
     let mut z = ZlibEncoder::new(f, Compression::default());
-    
-    let mut buffer = vec![0; z.total_out() as usize];
-    z.read(&mut buffer);
+
+    let mut buffer: Vec<u8> = Vec::new();
+    z.read_to_end(&mut buffer);
 
     buffer
 }

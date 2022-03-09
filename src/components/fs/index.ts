@@ -17,3 +17,7 @@ export function select_dir() {
 export function list_dir(dir: string) {
     return withTauri(() => Tauri.list_dir(dir))
 }
+
+export function read_file(path: string) {
+    return withTauri(() => Tauri.read_file(path))
+}
