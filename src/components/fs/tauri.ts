@@ -27,8 +27,9 @@ export async function read_file(path): Promise<string> {
    if (bytes[0] === 1) {
       // Do zlib inflate
       try {
-         console.log("Performing zlib inflate");
+         console.debug("Performing zlib inflate");
          const result = inflate(bytes.slice(1));
+         console.debug(`Expanded ${bytes.slice(1).length} zlib payload to ${result.length} bytes`)
          return new TextDecoder().decode(result)
       } catch (err) {
          console.log(err);
