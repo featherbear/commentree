@@ -7,9 +7,12 @@ export type UIStateType = {
     activeFile: string
 }
 
+// TODO: Make each state its own store
 export default writable<UIStateType>({
     filePanelVisible: false,
     favouritesVisible: false,
     metadataVisible: false,
     activeFile: null
 })
+
+export const activeFileContent = writable<string>("")

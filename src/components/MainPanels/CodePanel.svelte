@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
-  import UIState from "../../stores/UIState";
+  import UIState, { activeFileContent } from "../../stores/UIState";
   import PanelBase from "../Bases/PanelBase.svelte";
   import MonacoEditor from "../MonacoEditor.svelte";
   import registerMonacoLayoutTrigger from "../MonacoLayoutTrigger";
@@ -28,6 +28,10 @@
       registerMonacoScrollSync(editor);
       registerMonacoLineSync(editor);
       registerMonacoLayoutTrigger(editor);
+
+      activeFileContent.subscribe(data => {
+        editor.setValue(data)
+      })
     }}
     on:loaded
   />

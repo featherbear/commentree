@@ -1,16 +1,26 @@
-<script>
+<script lang="ts">
   import CodePanel from "../components/MainPanels/CodePanel.svelte";
 
   import FilePanel from "../components/MainPanels/FilePanel/FilePanel.svelte";
   import NotesPanel from "../components/MainPanels/CommentsPanel.svelte";
   import Toolbar from "../components/MainPanels/ToolbarPanel.svelte";
 
-  import UIState from "../stores/UIState";
+  import UIState, { activeFileContent } from "../stores/UIState";
   import { triggerMonacoLayoutRefresh } from "../components/MonacoLayoutTrigger";
+  import * as fs from "../components/fs";
 
   let loadedCounter = 0;
 
-  UIState.subscribe(() => setTimeout(() => triggerMonacoLayoutRefresh(), 0));
+  let lastFile: string = null;
+
+  UIState.subscribe((state) => {
+    if (lastFile != state.activeFile) {
+      fs.read_file(state.activeFile).then((data) => {
+        $activeFileContent = data;
+      });
+    }
+    setTimeout(() => triggerMonacoLayoutRefresh(), 0);
+  });
 </script>
 
 <svelte:head>
