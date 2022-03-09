@@ -35,16 +35,17 @@ function generateSetHandler(key: keyof typeof data) {
             data[key].delete(file)
         }
 
-        notifiers[key]()
+        notifiers[key]?.()
     }
 
     function set(files: string[]) {
         data[key] = new Set(files)
-        notifiers[key]()
+        notifiers[key]?.()
     }
 
     const store = readable<string[]>([], (update) => {
         notifiers[key] = () => update(list())
+        notifiers[key]()
     })
 
     return {
