@@ -9,6 +9,11 @@
   import SaveIcon from "../../lineicons-free/save.svg";
   import LoadIcon from "../../lineicons-free/inbox.svg";
   import FilesIcon from "../../lineicons-free/radio-button.svg";
+
+  import { files } from "../../stores/AppState";
+  let FilesStore = files.store;
+
+  import * as fs from "../fs";
 </script>
 
 <PanelBase
@@ -28,6 +33,15 @@
     <FilesIcon fill="white" />
   </div>
   <section>
+    <div>
+      <button
+        on:click={async () => {
+          let dir = await fs.select_dir();
+          let list = await fs.list_dir(dir);
+          files.set(list);
+        }}>test</button
+      >
+    </div>
     <div
       on:click={() => {
         let input = prompt("Import data");

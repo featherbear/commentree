@@ -46,6 +46,7 @@ export const serialisation = {
         console.log("Loaded data", object);
 
         let newData: DataType = {
+            files: new Set(object.files),
             favourites: new Set(object.favourites)
         }
 

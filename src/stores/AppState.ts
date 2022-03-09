@@ -1,40 +1,61 @@
 import { readable } from "svelte/store";
-import type { Subscriber } from 'svelte/store'
 
 let data = {
-    favourites: new Set<string>()
+    favourites: new Set<string>(),
+    files: new Set<string>()
 }
 
 export type DataType = typeof data
 
 export function replaceData(newData: typeof data) {
     data = newData
-    
-    _updateFavouritesStore(favourites.list())
-}
 
-
-let _updateFavouritesStore: Subscriber<string[]>;
-
-export const favourites = {
-    list() {
-        return Array.from(data.favourites)
-    },
-    toggle(file: string, forceState: boolean = null) {
-        let nextState = forceState
-        if (nextState === null) {
-            nextState = !data.favourites.has(file)
-        }
-        if (nextState) {
-            data.favourites.add(file)
-        } else {
-            data.favourites.delete(file)
-        }
-
-        _updateFavouritesStore(favourites.list())
-    },
-    store: readable<string[]>([], (update) => {
-        _updateFavouritesStore = update
+    Object.keys(notifiers).forEach((key) => {
+        if (!newData[key]) return
+        notifiers[key]()
     })
 }
 
+let notifiers: { [key in keyof typeof data]?: Function } = {}
+
+function generateSetHandler(key: keyof typeof data) {
+
+    function list() {
+        return Array.from(data[key])
+    }
+
+    function toggle(file: string, forceState: boolean = null) {
+        let nextState = forceState
+        if (nextState === null) {
+            nextState = !data[key].has(file)
+        }
+        if (nextState) {
+            data[key].add(file)
+        } else {
+            data[key].delete(file)
+        }
+
+        notifiers[key]?.()
+    }
+
+    function set(files: string[]) {
+        data[key] = new Set(files)
+        notifiers[key]?.()
+    }
+
+    const store = readable<string[]>([], (update) => {
+        notifiers[key] = () => update(list())
+        notifiers[key]()
+    })
+
+    return {
+        list,
+        toggle,
+        set,
+        store
+    }
+}
+
+
+export const favourites = generateSetHandler('favourites')
+export const files = generateSetHandler('files')
