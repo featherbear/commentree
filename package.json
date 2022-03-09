@@ -11,13 +11,16 @@
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch"
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+    "tauri": "tauri"
   },
   "type": "module",
   "devDependencies": {
     "@poppanator/sveltekit-svg": "^0.3.1",
     "@sveltejs/adapter-static": "next",
     "@sveltejs/kit": "next",
+    "@tauri-apps/api": "^1.0.0-rc.2",
+    "@tauri-apps/cli": "^1.0.0-rc.7",
     "@types/deflate-js": "^0.2.0",
     "deflate-js": "^0.2.3",
     "monaco-editor": "^0.32.1",

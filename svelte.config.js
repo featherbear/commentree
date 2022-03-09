@@ -10,9 +10,6 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-		paths: {
-			base: '/commentree'
-		},
 		vite: {
 			plugins: [
 				svg()

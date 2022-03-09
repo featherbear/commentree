@@ -9,6 +9,8 @@
   import SaveIcon from "../../lineicons-free/save.svg";
   import LoadIcon from "../../lineicons-free/inbox.svg";
   import FilesIcon from "../../lineicons-free/radio-button.svg";
+
+  import {listDir} from  '../fs'
 </script>
 
 <PanelBase
@@ -28,6 +30,11 @@
     <FilesIcon fill="white" />
   </div>
   <section>
+    <div>
+      <button on:click={() => {
+        listDir()
+      }} >test</button>
+    </div>
     <div
       on:click={() => {
         let input = prompt("Import data");
