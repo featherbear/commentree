@@ -32,7 +32,22 @@ export function openFile(path: string) {
 
     UIState.activeFile.set({
         path,
-        content: fs.read_file(path)
+        content: new Promise(async (resolve, reject) => {
+            let buffer = ""
+            for await (let p of fs.read_file_chunk_gen(path)) {
+                buffer += p
+
+                /**
+                 * Max size = 1024 KB = 1 MB
+                 */
+                if (buffer.length > 1024 * 1024) {
+                    buffer += "\n\n* file contracted *"
+                    break
+                }
+            }
+
+            resolve(buffer)            
+        })
     })
 
     openFile['lastFile'] = path;
