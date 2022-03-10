@@ -25,11 +25,38 @@ pub fn list_dir(path: String) -> Vec<String> {
     results
 }
 
+#[cfg(target_os = "unix")]
+use std::os::unix::fs::PermissionsExt;
+use std::sync::Mutex;
+use lazy_static::lazy_static;
+
 use flate2::read::ZlibEncoder;
 use flate2::Compression;
 use std::fs::File;
 use std::io::prelude::{Read, Seek};
 use std::io::{SeekFrom};
+
+lazy_static! {
+    static ref lastFilePath: Mutex<Option<String>> = Mutex::new(None);
+    static ref lastFileHandle: Mutex<Option<File>> = Mutex::new(None);
+}
+
+pub fn read_file_chunk(path: String, chunk: usize) {
+    let mut currentFilePath = lastFilePath.lock().unwrap();
+    let mut currentFileHandle = lastFileHandle.lock().unwrap();
+    
+    if currentFilePath.is_none() || currentFilePath.as_ref().unwrap().ne(&path) {
+        println!("Read new file");
+
+        *currentFilePath = Some(path.clone());
+        *currentFileHandle = Some(File::open(path).unwrap());
+    }
+    // let mut fl = my_mutex.lock().unwrap();
+    // *fl = File::open(path).unwrap();
+    // static af = 2;
+    // lastFile.
+    // return 0;
+}
 
 pub fn read_file(path: String) -> Vec<u8> {
     let mut f = File::open(path).unwrap();

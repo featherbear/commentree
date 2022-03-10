@@ -22,6 +22,7 @@ rfd = "0.8.1"
 walkdir = "2"
 flate2 = "1.0.22"
 base64 = "0.13.0"
+lazy_static = "1.4.0"
 
 [features]
 # by default Tauri runs in production mode
