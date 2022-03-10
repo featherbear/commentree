@@ -27,6 +27,7 @@ pub fn list_dir(path: String) -> Vec<String> {
 
 #[cfg(target_os = "unix")]
 use std::os::unix::fs::PermissionsExt;
+
 use std::sync::Mutex;
 use lazy_static::lazy_static;
 
@@ -37,64 +38,65 @@ use std::io::prelude::{Read, Seek, Write};
 use std::io::{SeekFrom};
 
 lazy_static! {
-    static ref lastFilePath: Mutex<Option<String>> = Mutex::new(None);
-    static ref lastFileHandle: Mutex<Option<File>> = Mutex::new(None);
+    static ref LAST_FILE_PATH: Mutex<Option<String>> = Mutex::new(None);
+    static ref LAST_FILE_HANDLE: Mutex<Option<File>> = Mutex::new(None);
 }
 
 pub fn read_file_chunk(path: String, chunk: u64) -> Vec<u8> {
-    let mut currentFilePath = lastFilePath.lock().unwrap();
-    let mut currentFileHandle = lastFileHandle.lock().unwrap();
+    let mut current_file_path = LAST_FILE_PATH.lock().unwrap();
+    let mut current_file_handle = LAST_FILE_HANDLE.lock().unwrap();
     
-    if currentFilePath.is_none() || currentFilePath.as_ref().unwrap().ne(&path) {
+    if current_file_path.is_none() || current_file_path.as_ref().unwrap().ne(&path) {
         println!("Read new file, path={}, chunk={}", path, chunk);
 
-        *currentFilePath = Some(path.clone());
-        *currentFileHandle = Some(File::open(path).unwrap());
+        *current_file_path = Some(path.clone());
+        *current_file_handle = Some(File::open(path).unwrap());
     } else {
         println!("Read existing file, path={} chunk={}", path, chunk);
     }
 
-    let mut f = (currentFileHandle.as_ref()).unwrap();
-    f.seek(SeekFrom::Start(chunk * 2048));
+    let mut f = (current_file_handle.as_ref()).unwrap();
+    f.seek(SeekFrom::Start(chunk * 2048)).ok();
     
-    zlibEncode(f.take(2048))
+    compress_data(f.take(2048))
 }
 
-fn zlibEncode(mut f: impl Read) -> Vec<u8> {
-    let mut inputBuffer = Vec::new();
-    f.read_to_end(&mut inputBuffer);
+fn compress_data(mut f: impl Read) -> Vec<u8> {
+    let mut input_buffer = Vec::new();
+    f.read_to_end(&mut input_buffer).ok();
 
     let mut z = ZlibEncoder::new(Vec::new(), Compression::default());
-    z.write(&mut inputBuffer);
+    z.write(&mut input_buffer).ok();
 
-    let mut zlibBuffer = z.finish().unwrap();
+    let mut output_buffer = z.finish().unwrap();
 
     // Check if zlib compression was worth it
-    if inputBuffer.len() >= zlibBuffer.len() {
+    if input_buffer.len() >= output_buffer.len() {
         // result[0] == 0
-        zlibBuffer.insert(0, 1);
-        return zlibBuffer;
+        output_buffer.insert(0, 1);
+        return output_buffer;
     } else {
         // result[0] == 1
         // Well that was a waste of time, no space savings
-        inputBuffer.insert(0, 0);
-        return inputBuffer;
+        input_buffer.insert(0, 0);
+        return input_buffer;
     }
 }
 
 pub fn read_file(path: String) -> Vec<u8> {
-    let mut f = File::open(path).unwrap();
-    let metadata = f.metadata().unwrap();
-    metadata.len();
-    let perm = metadata.permissions();
-    println!("{:?}", perm);
+    let f = File::open(path).unwrap();
+    
+    // let metadata = f.metadata().unwrap();
+    // metadata.len();
+    // let perm = metadata.permissions();
+    // println!("{:?}", perm);
 
-    #[cfg(target_os = "unix")]
-    println!("{:o}", perm.mode());
+    // #[cfg(target_os = "unix")]
+    // println!("{:o}", perm.mode());
     
 
-    metadata.created();
-    metadata.modified();
+    // metadata.created();
+    // metadata.modified();
 
-    zlibEncode(&f)
+    compress_data(&f)
 }
