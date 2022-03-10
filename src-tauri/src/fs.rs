@@ -42,6 +42,8 @@ lazy_static! {
     static ref LAST_FILE_HANDLE: Mutex<Option<File>> = Mutex::new(None);
 }
 
+static CHUNK_SIZE: u64 = 2048;
+
 pub fn read_file_chunk(path: String, chunk: u64) -> Vec<u8> {
     println!("read_file_chunk(path={}, chunk={}) called", path, chunk);
 
@@ -58,9 +60,9 @@ pub fn read_file_chunk(path: String, chunk: u64) -> Vec<u8> {
     }
 
     let mut f = (current_file_handle.as_ref()).unwrap();
-    f.seek(SeekFrom::Start(chunk * 2048)).ok();
+    f.seek(SeekFrom::Start(chunk * CHUNK_SIZE)).ok();
     
-    compress_data(f.take(2048))
+    compress_data(f.take(CHUNK_SIZE))
 }
 
 fn compress_data(mut f: impl Read) -> Vec<u8> {
@@ -77,7 +79,7 @@ fn compress_data(mut f: impl Read) -> Vec<u8> {
     if input_buffer.len() != 0 {
         println!("Compression ratio = {:.2}:1", input_buffer.len() as f64 / output_buffer.len() as f64);
     }
-    
+
     // Check if zlib compression was worth it
     if input_buffer.len() >= output_buffer.len() {
         // result[0] == 0
