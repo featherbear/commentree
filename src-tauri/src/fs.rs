@@ -74,9 +74,14 @@ fn compress_data(mut f: impl Read) -> Vec<u8> {
 
     let mut output_buffer = z.finish().unwrap();
 
+    if input_buffer.len() != 0 {
+        println!("Compression ratio = {:.2}:1", input_buffer.len() as f64 / output_buffer.len() as f64);
+    }
+    
     // Check if zlib compression was worth it
     if input_buffer.len() >= output_buffer.len() {
         // result[0] == 0
+
         output_buffer.insert(0, 1);
         return output_buffer;
     } else {
