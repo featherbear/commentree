@@ -57,10 +57,10 @@ pub fn read_file_chunk(path: String, chunk: u64) -> Vec<u8> {
     let mut f = (currentFileHandle.as_ref()).unwrap();
     f.seek(SeekFrom::Start(chunk * 2048));
     
-    zlibEncode(f.take(2048).into_inner())
+    zlibEncode(f.take(2048))
 }
 
-fn zlibEncode(mut f: &File) -> Vec<u8> {
+fn zlibEncode(mut f: impl Read) -> Vec<u8> {
     let mut inputBuffer = Vec::new();
     f.read_to_end(&mut inputBuffer);
 
