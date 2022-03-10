@@ -55,8 +55,8 @@
     "windows": [
       {
         "title": "Commentree",
-        "width": 800,
-        "height": 600,
+        "minWidth": 1024,
+        "minHeight": 768,
         "resizable": true,
         "fullscreen": false
       }
