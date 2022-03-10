@@ -11,15 +11,23 @@ export async function select_dir(): Promise<string> {
    return invoke('select_dir')
 }
 
-export async function list_dir(dir): Promise<string[]> {
+export async function list_dir(dir: string): Promise<string[]> {
    let res: string = await invoke('list_dir', { dir })
    return JSON.parse(res)
 }
 
-export async function read_file(path): Promise<string> {
+export async function read_file(path: string): Promise<string> {
    let res: string = await invoke('read_file', { path })
+   return decodeFileResponse(res)
+}
 
-   var binary_string = window.atob(res);
+export async function read_file_chunk(path: string, chunk: number): Promise<string> {
+   let res: string = await invoke('read_file_chunk', { path, chunk})
+   return decodeFileResponse(res)
+}
+
+function decodeFileResponse(base64: string) {
+   var binary_string = window.atob(base64);
    var len = binary_string.length;
    var bytes = new Uint8Array(len);
    for (var i = 0; i < len; i++) bytes[i] = binary_string.charCodeAt(i);
@@ -40,4 +48,5 @@ export async function read_file(path): Promise<string> {
       // No need for zlib inflate
       return new TextDecoder().decode(bytes.slice(1))
    }
+
 }
