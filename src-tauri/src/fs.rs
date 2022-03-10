@@ -2,7 +2,7 @@ use rfd::FileDialog;
 use walkdir::WalkDir;
 
 pub fn select_dir() -> String {
-    println!("select_dir called");
+    println!("select_dir() called");
     let res = FileDialog::new().pick_folder();
     if res.is_none() {
         return "".into();
@@ -12,7 +12,7 @@ pub fn select_dir() -> String {
 }
 
 pub fn list_dir(path: String) -> Vec<String> {
-    println!("list_dir({}) called", path);
+    println!("list_dir(path={}) called", path);
 
     let mut results: Vec<String> = vec![];
 
@@ -43,6 +43,8 @@ lazy_static! {
 }
 
 pub fn read_file_chunk(path: String, chunk: u64) -> Vec<u8> {
+    println!("read_file_chunk(path={}, chunk={}) called", path, chunk);
+
     let mut current_file_path = LAST_FILE_PATH.lock().unwrap();
     let mut current_file_handle = LAST_FILE_HANDLE.lock().unwrap();
     
@@ -62,6 +64,8 @@ pub fn read_file_chunk(path: String, chunk: u64) -> Vec<u8> {
 }
 
 fn compress_data(mut f: impl Read) -> Vec<u8> {
+    println!("compress_data() called");
+
     let mut input_buffer = Vec::new();
     f.read_to_end(&mut input_buffer).ok();
 
@@ -84,6 +88,8 @@ fn compress_data(mut f: impl Read) -> Vec<u8> {
 }
 
 pub fn read_file(path: String) -> Vec<u8> {
+    println!("read_file(path={}) called", path);
+
     let f = File::open(path).unwrap();
     
     // let metadata = f.metadata().unwrap();
