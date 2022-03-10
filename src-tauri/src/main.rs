@@ -22,9 +22,15 @@ fn read_file(path: String) -> String {
     base64::encode(res)
 }
 
+#[tauri::command]
+fn read_file_chunk(path: String, chunk: u64) -> String {
+    let res = fs::read_file_chunk(path, chunk);
+    base64::encode(res)
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![select_dir, list_dir, read_file])
+        .invoke_handler(tauri::generate_handler![select_dir, list_dir, read_file, read_file_chunk])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
