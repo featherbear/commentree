@@ -36,9 +36,16 @@
       <button
         on:click={async () => {
           let dir = await fs.select_dir();
+          if (!dir) return;
+
           let list = await fs.list_dir(dir);
+
+          let fileList = list
+            .filter((p) => p.startsWith(dir))
+            .map((p) => p.slice(dir.length + 1));
+
           baseDirectory.set(dir);
-          files.set(list);
+          files.set(fileList);
         }}>test</button
       >
     </div>

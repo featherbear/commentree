@@ -2,6 +2,7 @@
   import { createEventDispatcher } from "svelte";
 
   import { activeFile } from "../../stores/UIState";
+  import { baseDirectory } from "../../controllers/AppController";
   import PanelBase from "../Bases/PanelBase.svelte";
   import MonacoEditor from "../MonacoEditor.svelte";
   import registerMonacoLayoutTrigger from "../MonacoLayoutTrigger";

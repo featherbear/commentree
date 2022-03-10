@@ -3,15 +3,23 @@
   import StarFilledIcon from "../../../lineicons-free/star-filled.svg";
 
   import { openFile } from "../../../controllers/UIController";
-  import { favourites } from "../../../controllers/AppController";
-  import { favourites as FavouritesStore } from "../../../stores/AppState";
+  import {
+    favourites,
+    baseDirectory,
+  } from "../../../controllers/AppController";
+  import {
+    favourites as FavouritesStore,
+    baseDirectory as BaseDirectoryStore,
+  } from "../../../stores/AppState";
+
+  import { join } from "path-browserify";
 
   export let path;
 </script>
 
 <div
   on:click={() => {
-    openFile(path);
+    openFile(join(baseDirectory.get(), path));
   }}
 >
   <span
