@@ -62,7 +62,8 @@
     </div>
     <div
       on:click={() => {
-        prompt("Exported data", serialisation.export());
+        navigator.clipboard.writeText(serialisation.export(true))
+        // prompt("Exported data", serialisation.export(true));
       }}
     >
       <SaveIcon fill="white" />
