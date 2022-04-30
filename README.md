@@ -2,6 +2,8 @@
 
 A plain-text file annotation tool, because documentation is hard as it is.
 
+![image](https://user-images.githubusercontent.com/1159091/166110609-eb1d5820-ce27-43d0-a59c-78a35104f53f.png)
+
 ---
 
 _Somehow we gotta read the filesystem from the web browser... maybe change to Electron? or have some file server_
